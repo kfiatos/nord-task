@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Application\DTO;
+namespace App\Taxes\Application\DTO;
 
-use Taxes\Domain\TaxType;
-use Taxes\Domain\ValueObject\Country;
-use Taxes\Domain\ValueObject\CountryState;
-use Taxes\Domain\ValueObject\TaxPercentage;
+use App\Taxes\Domain\TaxType;
+use App\Taxes\Domain\ValueObject\Country;
+use App\Taxes\Domain\ValueObject\CountryState;
+use App\Taxes\Domain\ValueObject\TaxPercentage;
 
 readonly class ExternalTaxDataResultItem
 {

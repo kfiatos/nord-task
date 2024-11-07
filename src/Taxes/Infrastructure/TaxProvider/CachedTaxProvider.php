@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Infrastructure\TaxProvider;
+namespace App\Taxes\Infrastructure\TaxProvider;
 
-use Taxes\Domain\TaxProviderInterface;
+use App\Taxes\Domain\TaxProviderInterface;
+use App\Taxes\Domain\ValueObject\TaxLocation;
 
 class CachedTaxProvider implements TaxProviderInterface
 {
@@ -12,7 +13,7 @@ class CachedTaxProvider implements TaxProviderInterface
     {
     }
 
-    public function provide(\App\Taxes\Domain\ValueObject\TaxLocation $location)
+    public function provide(TaxLocation $location)
     {
         // zrob klucz
         // this cache poll get klucz

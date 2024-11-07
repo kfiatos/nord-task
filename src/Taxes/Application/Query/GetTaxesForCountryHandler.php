@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Application\Query;
+namespace App\Taxes\Application\Query;
 
-use Shared\Infrastructure\QueryBus\QueryHandlerInterface;
-use Taxes\Domain\TaxProviderInterface;
+use App\Shared\Infrastructure\QueryBus\QueryHandlerInterface;
+use App\Shared\Infrastructure\QueryBus\QueryInterface;
+use App\Taxes\Domain\TaxProviderInterface;
 
 final readonly class GetTaxesForCountryHandler implements QueryHandlerInterface
 {
@@ -13,11 +14,19 @@ final readonly class GetTaxesForCountryHandler implements QueryHandlerInterface
     {
     }
 
-    public function handle(GetTaxesForCountryQuery $query): mixed
+    public function handle(QueryInterface $query): mixed
     {
         $provider = $this->taxProvider->provide($query->taxLocation);
         $data = $provider->provide($query->taxLocation);
 
-
+        return [];
     }
+
+    //    public function handle(): mixed
+    //    {
+    //        $provider = $this->taxProvider->provide($query->taxLocation);
+    //        $data = $provider->provide($query->taxLocation);
+    //        return [];
+    //
+    //    }
 }

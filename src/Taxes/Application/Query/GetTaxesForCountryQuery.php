@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Application\Query;
+namespace App\Taxes\Application\Query;
 
-use Taxes\Domain\ValueObject\TaxLocation;
-use Shared\Infrastructure\QueryBus\QueryInterface;
+use App\Shared\Infrastructure\QueryBus\QueryInterface;
+use App\Taxes\Domain\ValueObject\TaxLocation;
 
-final readonly class GetTaxesForCountryQuery implements QueryInterface
+class GetTaxesForCountryQuery implements QueryInterface
 {
     public function __construct(public TaxLocation $taxLocation)
     {

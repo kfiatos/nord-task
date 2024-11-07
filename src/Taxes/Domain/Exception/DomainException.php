@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Domain\Exception;
+namespace App\Taxes\Domain\Exception;
 
 class DomainException extends \Exception
 {

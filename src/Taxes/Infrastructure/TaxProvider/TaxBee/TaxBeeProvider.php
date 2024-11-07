@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Infrastructure\TaxProvider\TaxBee;
+namespace App\Taxes\Infrastructure\TaxProvider\TaxBee;
 
 use App\ExternalService\TaxBee\TaxBee;
 use App\ExternalService\TaxBee\TaxBeeException;
-use Taxes\Application\DTO\ExternalTaxDataResultItem;
-use Taxes\Application\DTO\TaxLocationDto;
-use Taxes\Application\TaxDataProviderInterface;
-use Taxes\Domain\TaxType;
-use Taxes\Domain\ValueObject\Country;
-use Taxes\Domain\ValueObject\CountryState;
-use Taxes\Domain\ValueObject\TaxPercentage;
+use App\Taxes\Application\DTO\ExternalTaxDataResultItem;
+use App\Taxes\Application\TaxDataProviderInterface;
+use App\Taxes\Domain\TaxType;
+use App\Taxes\Domain\ValueObject\Country;
+use App\Taxes\Domain\ValueObject\CountryState;
+use App\Taxes\Domain\ValueObject\TaxLocation;
+use App\Taxes\Domain\ValueObject\TaxPercentage;
 
 class TaxBeeProvider implements TaxDataProviderInterface
 {
@@ -22,7 +22,7 @@ class TaxBeeProvider implements TaxDataProviderInterface
      * @throws CountryNotSupportedException
      * @throws ExternalProviderException
      */
-    public function provide(TaxLocationDto $taxLocation): array
+    public function provide(TaxLocation $taxLocation): array
     {
         $client = new TaxBee();
         try {
@@ -41,7 +41,7 @@ class TaxBeeProvider implements TaxDataProviderInterface
         }
     }
 
-    public function supports(TaxLocationDto $taxLocationDto): bool
+    public function supports(TaxLocation $taxLocationDto): bool
     {
         return in_array($taxLocationDto->country->countryCode, self::SUPPORTED_COUNTRIES);
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Domain;
+namespace App\Taxes\Domain;
 
 enum TaxType: string
 {

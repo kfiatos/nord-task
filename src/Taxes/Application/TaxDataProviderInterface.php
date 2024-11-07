@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Application;
+namespace App\Taxes\Application;
 
-use Taxes\Application\DTO\TaxLocationDto;
+use App\Taxes\Domain\ValueObject\TaxLocation;
 
 interface TaxDataProviderInterface
 {
-    public function provide(TaxLocationDto $taxLocation): array;
+    public function provide(TaxLocation $taxLocation): array;
 
-    public function supports(TaxLocationDto $taxLocationDto): bool;
+    public function supports(TaxLocation $taxLocationDto): bool;
 }

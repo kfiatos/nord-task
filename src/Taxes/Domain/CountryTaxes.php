@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Domain;
+namespace App\Taxes\Domain;
 
-use Taxes\Domain\ValueObject\Tax;
+use App\Taxes\Domain\ValueObject\Tax;
 
 class CountryTaxes
 {

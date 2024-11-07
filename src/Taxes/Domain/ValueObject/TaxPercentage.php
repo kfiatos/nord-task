@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Domain\ValueObject;
+namespace App\Taxes\Domain\ValueObject;
 
-use Taxes\Domain\Exception\DomainException;
+use App\Taxes\Domain\Exception\DomainException;
 
 final readonly class TaxPercentage
 {

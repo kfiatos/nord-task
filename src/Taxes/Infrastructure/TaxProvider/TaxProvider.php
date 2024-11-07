@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Infrastructure\TaxProvider;
+namespace App\Taxes\Infrastructure\TaxProvider;
 
+use App\Taxes\Application\TaxDataProviderInterface;
+use App\Taxes\Domain\TaxProviderInterface;
 use App\Taxes\Domain\ValueObject\TaxLocation;
-use Taxes\Application\TaxDataProviderInterface;
-use Taxes\Domain\TaxProviderInterface;
 
 class TaxProvider implements TaxProviderInterface
 {
@@ -20,7 +20,7 @@ class TaxProvider implements TaxProviderInterface
     public function provide(TaxLocation $location)
     {
         foreach ($this->providers as $provider) {
-            if ($provider->supports($taxLocation)) {
+            if ($provider->supports($location)) {
                 return $provider;
             }
         }

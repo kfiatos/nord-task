@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Taxes\UserInterface\Http;
+namespace App\Taxes\UserInterface\Http;
 
-use Shared\Infrastructure\QueryBus\QueryBusInterface;
+use App\Shared\Infrastructure\QueryBus\QueryBusInterface;
+use App\Taxes\Application\Query\GetTaxesForCountryQuery;
+use App\Taxes\Domain\ValueObject\Country;
+use App\Taxes\Domain\ValueObject\CountryState;
+use App\Taxes\Domain\ValueObject\TaxLocation;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
-use Taxes\Application\Query\GetTaxesForCountryQuery;
-use Taxes\Domain\ValueObject\Country;
-use Taxes\Domain\ValueObject\CountryState;
-use Taxes\Domain\ValueObject\TaxLocation;
 
 #[AsController]
 #[Route('/taxes', name: 'get_taxes', methods: 'GET')]
@@ -24,11 +24,11 @@ final readonly class GetTaxesAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        $country = $request->get('country');
+        $country = $request->get('country', '');
         $state = $request->get('state');
 
         $results = $this->queryBus->query(
-            new GetTaxesForCountryQuery(new TaxLocation(new Country($country), new CountryState($state)))
+            new GetTaxesForCountryQuery(new TaxLocation(new Country($country), $state ? new CountryState($state) : null))
         );
 
         return new JsonResponse($results);

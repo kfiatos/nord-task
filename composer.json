@@ -35,10 +35,14 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "Taxes\\": "src/Taxes/",
-            "Shared\\": "src/Shared/"
-        }
+            "App\\Taxes\\": "src/Taxes",
+            "App\\Shared\\": "src/Shared",
+            "App\\ExternalService\\": "src/ExternalService"
+
+        },
+      "classmap": [
+        "src/Kernel.php"
+      ]
     },
     "autoload-dev": {
         "psr-4": {

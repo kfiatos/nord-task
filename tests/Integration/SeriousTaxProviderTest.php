@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Taxes\Application\DTO\TaxLocationDto;
 use Taxes\Domain\TaxType;
 use Taxes\Domain\ValueObject\Country;
+use Taxes\Domain\ValueObject\TaxLocation;
 use Taxes\Domain\ValueObject\TaxPercentage;
 use Taxes\Infrastructure\TaxProvider\SeriousTax\ExternalProviderException;
 use Taxes\Infrastructure\TaxProvider\SeriousTax\SeriousTaxProvider;
@@ -21,7 +21,7 @@ class SeriousTaxProviderTest extends TestCase
     {
         $provider = new SeriousTaxProvider();
 
-        $location = new TaxLocationDto(new Country($country), null);
+        $location = new TaxLocation(new Country($country), null);
 
         $data = $provider->provide($location);
         reset($data);
@@ -34,7 +34,7 @@ class SeriousTaxProviderTest extends TestCase
     {
         $provider = new SeriousTaxProvider();
 
-        $location = new TaxLocationDto(new Country('PL'), null);
+        $location = new TaxLocation(new Country('PL'), null);
 
         $this->expectException(ExternalProviderException::class);
         $provider->provide($location);

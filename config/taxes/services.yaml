@@ -4,18 +4,18 @@ services:
     autoconfigure: true
     public: false
 
-  Taxes\:
+  App\Taxes\:
     resource: '../../src/Taxes/'
 
   _instanceof:
-    Taxes\Application\TaxDataProviderInterface:
+    App\Taxes\Application\TaxDataProviderInterface:
       tags:
         - { name: tax.tax_provider }
 
-  Taxes\Application\TaxDataProviderStrategy:
+  App\Taxes\Application\TaxDataProviderStrategy:
     arguments:
       $providers: !tagged_iterator { tag: 'tax.tax_provider' }
 
-  Taxes\UserInterface\Http\GetTaxesAction:
-    arguments:
-      $bus:
+#  Taxes\UserInterface\Http\GetTaxesAction:
+#    arguments:
+#      $bus:

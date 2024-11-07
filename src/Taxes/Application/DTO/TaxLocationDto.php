@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Taxes\Application\DTO;
+namespace App\Taxes\Application\DTO;
 
-use Taxes\Domain\ValueObject\Country;
-use Taxes\Domain\ValueObject\CountryState;
+use App\Taxes\Domain\ValueObject\Country;
+use App\Taxes\Domain\ValueObject\CountryState;
 
 readonly class TaxLocationDto
 {

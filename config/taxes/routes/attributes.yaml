@@ -1,5 +1,5 @@
-controllers:
+controllers1:
   resource:
     path: ../../../src/Taxes/UserInterface/Http
-    namespace: Taxes\UserInterface\Http
+    namespace: App\Taxes\UserInterface\Http
   type: attribute
