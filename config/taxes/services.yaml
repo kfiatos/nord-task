@@ -5,8 +5,7 @@ services:
     public: false
 
   Taxes\:
-    resource: '../../src/Taxes/*'
-
+    resource: '../../src/Taxes/'
 
   _instanceof:
     Taxes\Application\TaxDataProviderInterface:
@@ -17,6 +16,6 @@ services:
     arguments:
       $providers: !tagged_iterator { tag: 'tax.tax_provider' }
 
-#  Taxes\UserInterface\Http\GetTaxesAction:
-#    arguments:
-#      $bus:
+  Taxes\UserInterface\Http\GetTaxesAction:
+    arguments:
+      $bus:

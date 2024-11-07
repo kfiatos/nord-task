@@ -21,16 +21,16 @@ class Kernel extends BaseKernel
         $confDir = $this->getProjectDir().'/config';
 
         $container->addResource(new FileResource($this->getProjectDir().'/config/bundles.php'));
-        $loader->load($confDir.'/*'.self::CONFIG_EXTS, 'glob');
+
+        $loader->load($confDir.'/{services}/*'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/{packages}/*'.self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir.'/taxes/{services}/*'.self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir.'/taxes/*'.self::CONFIG_EXTS, 'glob');
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $confDir = $this->getProjectDir().'/config';
 
-        $routes->import($confDir.'/*'.self::CONFIG_EXTS, 'glob');
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, 'glob');
         $routes->import($confDir.'/taxes/{routes}/*'.self::CONFIG_EXTS, 'glob');
     }
