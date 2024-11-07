@@ -1,0 +1,5 @@
+controllers:
+  resource:
+    path: ../../../src/Taxes/UserInterface/Http
+    namespace: Taxes\UserInterface\Http
+  type: attribute

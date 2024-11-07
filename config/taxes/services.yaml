@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Taxes\:
+    resource: '../../src/Taxes/*'
+
+
+  _instanceof:
+    Taxes\Application\TaxDataProviderInterface:
+      tags:
+        - { name: tax.tax_provider }
+
+  Taxes\Application\TaxDataProviderStrategy:
+    arguments:
+      $providers: !tagged_iterator { tag: 'tax.tax_provider' }
+
+#  Taxes\UserInterface\Http\GetTaxesAction:
+#    arguments:
+#      $bus:
