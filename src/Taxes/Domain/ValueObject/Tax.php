@@ -6,7 +6,7 @@ namespace App\Taxes\Domain\ValueObject;
 
 use App\Taxes\Domain\TaxType;
 
-readonly class Tax
+final readonly class Tax
 {
     public function __construct(private TaxType $type, private int $percentage)
     {

@@ -15,7 +15,7 @@ class TaxesTest extends WebTestCase
         $client->request('GET', '/taxes');
 
         $response = $client->getResponse();
-        $this->assertJson($response->getContent());
+        $this->assertJson($response->getContent() ?: '');
         $this->assertEquals(json_encode(['message' => 'implement me']), $response->getContent());
     }
 }

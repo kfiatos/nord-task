@@ -18,6 +18,9 @@ framework:
     php_errors:
         log: true
 
+    cache:
+        default_redis_provider: 'redis://localhost'
+
 when@test:
     framework:
         test: true

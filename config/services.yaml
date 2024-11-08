@@ -17,11 +17,16 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/ExternalService/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Taxes/Domain/ValueObject'
+            - '../src/Taxes/Application/DTO'
     App\Shared\:
         resource: '../src/Shared/'
 
+    App\Taxes\Infrastructure\TaxProvider\CachedTaxProvider:
+        arguments:
+            $ttl: 10
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Taxes\Domain\TaxProviderInterface: '@App\Taxes\Infrastructure\TaxProvider\CachedTaxProvider'

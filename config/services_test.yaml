@@ -1,0 +1,21 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/ExternalService/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
+      - '../src/Taxes/Domain/ValueObject'
+      - '../src/Taxes/Application/DTO'
+      - '../src/Taxes/Application/Query'
+      - '../src/Taxes/Application/ReadModel'
+
+  App\Taxes\Infrastructure\TaxProvider\CachedTaxProvider:
+    arguments:
+      $ttl: 10
