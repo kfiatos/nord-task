@@ -33,7 +33,7 @@ redis-flushall:
 bash:
 	${COMPOSE} run php bash
 
-cs-fixer:
+php-cs:
 	${COMPOSE} run php vendor/bin/php-cs-fixer fix --allow-risky=yes
 
 php-stan:

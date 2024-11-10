@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\Taxes\Application\DTO\ExternalTaxDataResultItem;
+use App\Taxes\Domain\TaxType;
+use App\Taxes\Domain\ValueObject\Country;
+use App\Taxes\Domain\ValueObject\CountryState;
+use App\Taxes\Domain\ValueObject\TaxLocation;
+use App\Taxes\Domain\ValueObject\TaxPercentage;
+use App\Taxes\Infrastructure\TaxProvider\TaxBee\TaxBeeProvider;
 use PHPUnit\Framework\TestCase;
-use Taxes\Application\DTO\ExternalTaxDataResultItem;
-use Taxes\Application\DTO\TaxLocationDto;
-use Taxes\Domain\TaxType;
-use Taxes\Domain\ValueObject\Country;
-use Taxes\Domain\ValueObject\CountryState;
-use Taxes\Domain\ValueObject\TaxPercentage;
-use Taxes\Infrastructure\TaxProvider\TaxBee\TaxBeeProvider;
 
 class TaxBeeProviderTest extends TestCase
 {
     /**
+     * @param array<array{taxPercentage: float, taxType: string}> $taxList
+     *
      * @dataProvider provideCountryAndStateData
      */
     public function testProvideValidDataForCountryAndState(string $country, string $stateName, array $taxList): void
     {
         $provider = new TaxBeeProvider();
 
-        $location = new TaxLocationDto(new Country($country), new CountryState($stateName));
+        $location = new TaxLocation(new Country($country), new CountryState($stateName));
         $data = $provider->provide($location);
         $expectedCount = count($taxList);
 
@@ -32,7 +34,7 @@ class TaxBeeProviderTest extends TestCase
         foreach ($taxList as $testCase) {
             foreach ($data as $singleItem) {
                 if ($singleItem->type->value === $testCase['taxType']) {
-                    $this->assertEquals(new TaxPercentage($testCase['taxPercentage']), $singleItem->percentage);
+                    $this->assertEquals(TaxPercentage::fromFloat($testCase['taxPercentage']), $singleItem->percentage);
                     $this->assertEquals(TaxType::from($testCase['taxType']), $singleItem->type);
                 }
             }

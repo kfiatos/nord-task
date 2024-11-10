@@ -36,7 +36,7 @@ class SeriousTaxProvider implements TaxDataProviderInterface
                 [
                     new ExternalTaxDataResultItem(
                         TaxType::from(self::TAX_TYPE->value),
-                        new TaxPercentage($result)
+                        TaxPercentage::fromFloat($result)
                     ),
                 ];
         } catch (TimeoutException) {

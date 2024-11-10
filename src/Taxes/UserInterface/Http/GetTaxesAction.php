@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -22,6 +21,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsController]
@@ -36,8 +36,10 @@ final readonly class GetTaxesAction
     {
         /** @var string|null $state */
         $state = $request->get('state');
+        /** @var string $country */
+        $country = $request->get('country', '');
 
-        $dto = new TaxLocationDto((string) $request->get('country', ''), $state);
+        $dto = new TaxLocationDto($country, $state);
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
             return new JsonResponse($this->prepareErrorMessage($errors), Response::HTTP_BAD_REQUEST);
@@ -49,13 +51,17 @@ final readonly class GetTaxesAction
             );
 
             return new JsonResponse($this->serializer->serialize($results, JsonEncoder::FORMAT, [AbstractObjectNormalizer::SKIP_NULL_VALUES => true]), json: true);
-        } catch (HandlerFailedException|HttpException $exception) {
-            return new JsonResponse($exception->getPrevious()->getMessage(), Response::HTTP_BAD_REQUEST);
+        } catch (HandlerFailedException $exception) {
+            return new JsonResponse($exception->getPrevious()?->getMessage() ?? 'Application error, please try again', Response::HTTP_BAD_REQUEST);
         }
     }
 
-    private function prepareErrorMessage(ConstraintViolationList $constraintViolationList): array
+    /**
+     * @return array<string>
+     */
+    private function prepareErrorMessage(ConstraintViolationListInterface $constraintViolationList): array
     {
+        /** @var ConstraintViolationList $constraintViolationList */
         return array_map(function ($singleViolation) {
             /* @var $singleViolation ConstraintViolation */
             return $singleViolation->getPropertyPath().': '.$singleViolation->getMessage();

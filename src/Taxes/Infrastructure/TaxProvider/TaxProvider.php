@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Taxes\Infrastructure\TaxProvider;
 
+use App\Taxes\Application\DTO\ExternalTaxDataResultItem;
 use App\Taxes\Application\TaxDataProviderInterface;
 use App\Taxes\Domain\Exception\DomainException;
 use App\Taxes\Domain\Exception\NoMatchingProviderException;
@@ -21,6 +22,8 @@ class TaxProvider implements TaxProviderInterface
     }
 
     /**
+     * @return array<ExternalTaxDataResultItem>
+     *
      * @throws DomainException
      */
     public function provide(TaxLocation $location): array

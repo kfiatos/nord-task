@@ -15,6 +15,6 @@ final class QueryBus implements QueryBusInterface
 
     public function query(QueryInterface $query): mixed
     {
-        return $this->bus->dispatch($query)->last(HandledStamp::class)->getResult();
+        return $this->bus->dispatch($query)->last(HandledStamp::class)?->getResult();
     }
 }

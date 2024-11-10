@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\Taxes\Application\DTO\ExternalTaxDataResultItem;
+use App\Taxes\Domain\TaxType;
+use App\Taxes\Domain\ValueObject\Country;
+use App\Taxes\Domain\ValueObject\TaxLocation;
+use App\Taxes\Domain\ValueObject\TaxPercentage;
+use App\Taxes\Infrastructure\TaxProvider\SeriousTax\ExternalProviderException;
+use App\Taxes\Infrastructure\TaxProvider\SeriousTax\SeriousTaxProvider;
 use PHPUnit\Framework\TestCase;
-use Taxes\Domain\TaxType;
-use Taxes\Domain\ValueObject\Country;
-use Taxes\Domain\ValueObject\TaxLocation;
-use Taxes\Domain\ValueObject\TaxPercentage;
-use Taxes\Infrastructure\TaxProvider\SeriousTax\ExternalProviderException;
-use Taxes\Infrastructure\TaxProvider\SeriousTax\SeriousTaxProvider;
 
 class SeriousTaxProviderTest extends TestCase
 {
@@ -25,9 +26,11 @@ class SeriousTaxProviderTest extends TestCase
 
         $data = $provider->provide($location);
         reset($data);
+        /** @var ExternalTaxDataResultItem $firstResultItem */
+        $firstResultItem = current($data);
 
-        $this->assertEquals(new TaxPercentage($percentage), current($data)->percentage);
-        $this->assertEquals(TaxType::VAT, current($data)->type);
+        $this->assertEquals(TaxPercentage::fromFloat($percentage), $firstResultItem->percentage);
+        $this->assertEquals(TaxType::VAT, $firstResultItem->type);
     }
 
     public function testTestThrowsExceptionForInvalidCountry(): void

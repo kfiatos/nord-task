@@ -26,12 +26,12 @@ class TaxBeeProvider implements TaxDataProviderInterface
     {
         $client = new TaxBee();
         try {
-            $externalData = $client->getTaxes(country: $taxLocation->country->countryCode, state: $taxLocation->state->stateName, city: '', street: '', postcode: '');
+            $externalData = $client->getTaxes(country: $taxLocation->country->countryCode, state: $taxLocation->state->stateName ?? '', city: '', street: '', postcode: '');
 
             return array_map(function ($row) {
                 return new ExternalTaxDataResultItem(
                     type: TaxType::from($row->type->value),
-                    percentage: new TaxPercentage($row->taxPercentage),
+                    percentage: TaxPercentage::fromFloat($row->taxPercentage),
                 );
             }, $externalData);
         } catch (TaxBeeException $taxBeeException) {
