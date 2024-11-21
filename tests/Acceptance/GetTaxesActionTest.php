@@ -49,9 +49,12 @@ class GetTaxesActionTest extends WebTestCase
         $client->request('GET', sprintf('/taxes?country=PL'));
         $response = $client->getResponse();
 
-        /** @var string $error */
-        $error = $response->getContent();
-        $this->assertStringContainsString('Error: Could not retrieve data for country: PL', $error);
+        /** @var string $responseContent */
+        $responseContent = $response->getContent();
+        /** @var array<string, string> $errorResponse */
+        $errorResponse = json_decode($responseContent, true);
+        $this->assertArrayHasKey('message', $errorResponse);
+        $this->assertStringContainsString('Failed fetching taxes for country: PL', $errorResponse['message']);
     }
 
     public function testReturnsErrorForInvalidStateRequest(): void

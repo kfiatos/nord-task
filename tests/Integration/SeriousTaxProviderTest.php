@@ -4,23 +4,26 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\ExternalService\SeriousTax\SeriousTaxService;
 use App\Taxes\Application\DTO\ExternalTaxDataResultItem;
 use App\Taxes\Domain\TaxType;
 use App\Taxes\Domain\ValueObject\Country;
 use App\Taxes\Domain\ValueObject\TaxLocation;
 use App\Taxes\Domain\ValueObject\TaxPercentage;
-use App\Taxes\Infrastructure\TaxProvider\SeriousTax\ExternalProviderException;
+use App\Taxes\Infrastructure\TaxProvider\Exception\ExternalProviderException;
 use App\Taxes\Infrastructure\TaxProvider\SeriousTax\SeriousTaxProvider;
 use PHPUnit\Framework\TestCase;
 
 class SeriousTaxProviderTest extends TestCase
 {
+    public SeriousTaxService $seriousTaxService;
+
     /**
      * @dataProvider provideValidCountriesWithTaxRates
      */
     public function testProvideValidDataForCountry(string $country, float $percentage): void
     {
-        $provider = new SeriousTaxProvider();
+        $provider = new SeriousTaxProvider(new SeriousTaxService());
 
         $location = new TaxLocation(new Country($country), null);
 
@@ -35,7 +38,7 @@ class SeriousTaxProviderTest extends TestCase
 
     public function testTestThrowsExceptionForInvalidCountry(): void
     {
-        $provider = new SeriousTaxProvider();
+        $provider = new SeriousTaxProvider(new SeriousTaxService());
 
         $location = new TaxLocation(new Country('PL'), null);
 
@@ -49,5 +52,11 @@ class SeriousTaxProviderTest extends TestCase
         yield ['LT', 21.0];
         yield ['LV', 22.0];
         yield ['EE', 20.0];
+    }
+
+    protected function setUp(): void
+    {
+        $this->seriousTaxService = new SeriousTaxService();
+        parent::setUp();
     }
 }

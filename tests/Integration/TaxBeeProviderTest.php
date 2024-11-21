@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\ExternalService\TaxBee\TaxBee;
 use App\Taxes\Application\DTO\ExternalTaxDataResultItem;
 use App\Taxes\Domain\TaxType;
 use App\Taxes\Domain\ValueObject\Country;
@@ -22,7 +23,7 @@ class TaxBeeProviderTest extends TestCase
      */
     public function testProvideValidDataForCountryAndState(string $country, string $stateName, array $taxList): void
     {
-        $provider = new TaxBeeProvider();
+        $provider = new TaxBeeProvider(new TaxBee());
 
         $location = new TaxLocation(new Country($country), new CountryState($stateName));
         $data = $provider->provide($location);

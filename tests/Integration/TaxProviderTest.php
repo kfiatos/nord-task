@@ -11,10 +11,9 @@ use App\Taxes\Domain\TaxType;
 use App\Taxes\Domain\ValueObject\Country;
 use App\Taxes\Domain\ValueObject\TaxLocation;
 use App\Taxes\Domain\ValueObject\TaxPercentage;
-use App\Taxes\Infrastructure\TaxProvider\SeriousTax\ExternalProviderException;
+use App\Taxes\Infrastructure\TaxProvider\Exception\ExternalProviderException;
 use App\Taxes\Infrastructure\TaxProvider\SeriousTax\SeriousTaxProvider;
 use App\Taxes\Infrastructure\TaxProvider\TaxProvider;
-use Decimal\Decimal;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TaxProviderTest extends KernelTestCase
@@ -57,12 +56,11 @@ class TaxProviderTest extends KernelTestCase
         $this->expectException($exceptionClass);
         $this->expectExceptionMessage($errorMsg);
         $taxProvider->provide(new TaxLocation(new Country($country), null));
-        //        new Decimal()
     }
 
     public static function provideInvalidCountries(): \Generator
     {
-        yield ['PL', 'Error: Could not retrieve data for country: PL', ExternalProviderException::class];
+        yield ['PL', 'Failed fetching taxes for country: PL', ExternalProviderException::class];
         yield ['IE', 'No matching provider for given location', NoMatchingProviderException::class];
     }
 

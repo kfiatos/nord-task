@@ -1,3 +1,9 @@
+
+## MY ASSUMPTIONS FOR THIS TASK
+Validation Exception handling should be moved to some Listener to clean up the controller but I didn't do it as could not make it work with 
+Symfony error page for case where **country = ""**
+
+
 # Definition of challenge
 
 Different countries have different taxes applied when people purchase goods. Some countries have **Value Added Tax (VAT)**, other countries have **Goods and Services Tax (GST)**, while Canada has **Harmonized Sales Tax (HST)** and so on.

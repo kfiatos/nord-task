@@ -10,7 +10,6 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/ExternalService/'
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Taxes/Domain/ValueObject'
